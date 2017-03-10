@@ -19,7 +19,8 @@
    });
 //make an occurrence layer for macropus
    var macropus = L.tileLayer.wms(
-       "https://records-ws.nbnatlas.org/mapping/wms/reflect", {
+       "https://records-ws.nbnatlas.org/ogc/wms/reflect", {  
+       //"https://records-ws.nbnatlas.org/mapping/wms/reflect", {
          q : "Vulpes vulpes",
          layers: 'ALA:occurrences',
          format: 'image/png',
