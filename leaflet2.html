@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<!--
+Courtesy of Jim Bacon
+-->
+<html>
+  <head>
+    <title>Martes martes</title>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="https://unpkg.com/leaflet@1.0.3/dist/leaflet.css" />
+    <script src="https://unpkg.com/leaflet@1.0.3/dist/leaflet.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/proj4js/2.4.3/proj4.js"></script>
+    <script src="https://cdn.rawgit.com/kartena/Proj4Leaflet/a7114705/src/proj4leaflet.js"></script>
+    <script src="https://cdn.rawgit.com/rob-murray/os-leaflet/9a7d11ed/OSOpenSpace.js"></script>
+    <script src="https://code.jquery.com/jquery-3.2.1.min.js"></script>
+
+  </head>
+  <body>
+    <div id="map" style="height:782px;width:600px"></div>
+    <script>
+      // Create a base layer 
+      var openspaceLayer = L.OSOpenSpace.tilelayer('EC9EDE7DAD732ABAE0430C6CA40AB812');
+      
+      // Make a map and add the layers
+      var map = new L.map('map', {
+        crs: L.OSOpenSpace.CRS,
+        center: [55.6,-4.0],
+        zoom: 0,
+        layers: [openspaceLayer]
+      });
+      
+      var url_100km = "https://cdn.rawgit.com/charlesroper/OSGB_Grids/3b7d1709/GeoJSON/OSGB_Grid_100km.geojson";
+      var url_10km = "https://cdn.rawgit.com/charlesroper/OSGB_Grids/3b7d1709/GeoJSON/OSGB_Grid_10km.geojson";
+      var url_martes = 'https://records-ws.nbnatlas.org/occurrences/search?q=*:*&fq=species:"Martes martes"&facets=grid_ref_10000&flimit=99999&pageSize=0';
+      $.getJSON(url_10km, function(grid) {
+        $.getJSON(url_martes, function(distribution) {
+          distStyle = {
+            color: "#000",
+            weight: 1,
+            opacity: 0.8,
+            fillColor: "#ffff00",
+            fillOpacity: 0.5 
+          };
+          L.geoJSON(grid, {
+            style: distStyle,
+            onEachFeature: function(feature, layer) {
+              layer.bindPopup(feature.properties.TILE_NAME);
+            },
+            filter: function(feature) {
+              var gridrefFeature = feature.properties.TILE_NAME;
+              var facets = distribution.facetResults[0].fieldResult;
+              for (var i = 0; i < facets.length; i++) {
+                if (facets[i].label == gridrefFeature) {
+                  return true;
+                }
+              }
+              return false;
+            }
+          }).addTo(map);                 
+        });
+      });
+    </script>
+  </body>
+</html>
