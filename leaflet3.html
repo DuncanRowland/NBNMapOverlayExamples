@@ -28,8 +28,9 @@
              continuousWorld: true,
              worldCopyJump: false,
              layers: [
-                 L.tileLayer.wms('https://layers.nbnatlas.org/geoserver/ALA/wms?layers=ALA:world&styles=ALA:borders_only', {
+                 L.tileLayer.wms('https://layers.nbnatlas.org/geoserver/ALA/wms', {
                      layers: 'ALA:world',
+                     styles: 'ALA:borders_only',
                      format: 'image/png',
                      maxZoom: 14,
                      minZoom: 0,
