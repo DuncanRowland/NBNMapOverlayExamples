@@ -23,9 +23,15 @@ provided by NBN Atlas web services. Courtesy of Jim Bacon
       // This could be an Ordnance Survey layer if you have an OpenSpace account. E.g.
       // var baseLayer = L.OSOpenSpace.tilelayer('EC9EDE7DAD732ABAE0430C6CA40AB812');
       // In the short term you can still get a base layer from the old NBN Gateway.
-      var baseLayer = L.tileLayer.wms('https://gis.nbn.org.uk/Context', {
-        layers: 'Vice-counties'
-      });
+      var baseLayer = L.tileLayer.wms('https://layers.nbnatlas.org/geoserver/ALA/wms', {
+        layers: 'ALA:county_coastal_terrestrial_region',//'ALA:world',
+        styles: 'ALA:borders_only',
+        format: 'image/png',
+        maxZoom: 14,
+        minZoom: 0,
+        continuousWorld: true,
+        attribution: 'NBN Atlas'
+      })
       
       // Make a map in OSGB projection and add the base layer.
       var map = new L.map('map', {
