@@ -57,7 +57,7 @@ provided by NBN Atlas web services. Courtesy of Jim Bacon
         // includes an element for every grid square where the species is 
         // present. The field used to facet results must match the resolution 
         // of the grid we just obtained.
-        var url_martes = 'https://records-ws.nbnatlas.org/occurrences/search?q=species:"Martes martes"&facets=grid_ref_10000&fsort=index&flimit=99999&pageSize=0';
+        var url_martes = 'https://records-ws.nbnatlas.org/occurrences/search?q=species:"Martes martes"&facets=grid_ref_10000&fsort=index&flimit=-1&pageSize=0';
         $.getJSON(url_martes, function(distribution) {
           // If getJSON was successful, distribution contains the response
           
