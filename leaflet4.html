@@ -12,11 +12,15 @@
 <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.10.2/jquery.min.js"></script>
 <script>
 //make a base layer 
-   var minimal = L.tileLayer(
-      "http://{s}.basemaps.cartocdn.com/light_all/{z}/{x}/{y}.png", {
-         styleId: 22677,
-         attribution: "Map data &copy; 2011 OpenStreetMap contributors, Imagery &copy; 2011 CloudMade"
-   });
+   var baseLayer = L.tileLayer.wms('https://layers.nbnatlas.org/geoserver/ALA/wms', {
+      layers: 'ALA:county_coastal_terrestrial_region',//'ALA:world',
+      styles: 'ALA:borders_only',
+      format: 'image/png',
+      maxZoom: 14,
+      minZoom: 0,
+      continuousWorld: true,
+      attribution: 'NBN Atlas'
+   })
 //make an occurrence layer for Mallow
    var mallow = L.tileLayer.wms(
        "https://records-ws.nbnatlas.org/ogc/wms/reflect", {  
@@ -32,7 +36,7 @@
    var map = L.map('map', {
       center: [56.6,-4.0],
       zoom: 6,
-      layers: [minimal, mallow]
+      layers: [baseLayer, mallow]
    });
 </script>
 </body>
