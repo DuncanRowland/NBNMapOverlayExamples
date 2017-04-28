@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html>
+<head>
+   <title>Mallow</title>
+   <meta charset="utf-8" />
+   <meta name="viewport" content="width=device-width, initial-scale=1.0">
+   <link rel="stylesheet" href="https://unpkg.com/leaflet@0.7.7/dist/leaflet.css" />
+   <script src="https://unpkg.com/leaflet@0.7.7/dist/leaflet.js"></script>
+</head>
+<body>
+<div id="map" style="height:400px;width:300px"></div>
+<script src="http://ajax.googleapis.com/ajax/libs/jquery/1.10.2/jquery.min.js"></script>
+<script>
+//make a base layer 
+   var minimal = L.tileLayer(
+      "http://{s}.basemaps.cartocdn.com/light_all/{z}/{x}/{y}.png", {
+         styleId: 22677,
+         attribution: "Map data &copy; 2011 OpenStreetMap contributors, Imagery &copy; 2011 CloudMade"
+   });
+//make an occurrence layer for Mallow
+   var mallow = L.tileLayer.wms(
+       "https://records-ws.nbnatlas.org/ogc/wms/reflect", {  
+         q : "lsid:NHMSYS0000460576",
+         layers: 'ALA:occurrences',
+         format: 'image/png',
+         transparent: true,
+         attribution: "NBN Atlas",
+         bgcolor:"0x000000",
+         ENV: "colormode:year,1000,1999,2000,2009,2010,2017;opacity:1.0"
+   });
+//make a map and add the layers
+   var map = L.map('map', {
+      center: [56.6,-4.0],
+      zoom: 6,
+      layers: [minimal, mallow]
+   });
+</script>
+</body>
+</html>
